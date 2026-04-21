@@ -1,6 +1,115 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
+const TERM_LINES = [
+  { type: 'cmd',  text: 'whoami' },
+  { type: 'out',  text: 'priyansh sonthalia · full-stack engineer' },
+  { type: 'cmd',  text: 'cat /status' },
+  { type: 'out',  text: "interning @ smoad · open to summer '26" },
+  { type: 'cmd',  text: 'ls /projects/' },
+  { type: 'out',  text: 'AIIMAGING  SAMSUNG  RUDRA  STARSHIP  NETMON' },
+  { type: 'cmd',  text: 'git log --oneline -2' },
+  { type: 'out',  text: 'a1b2c3 shipped implantdetect.com' },
+  { type: 'out',  text: 'd4e5f6 built samsung pricing platform' },
+  { type: 'cmd',  text: '' },
+]
+
+function TerminalBg() {
+  const [shownLines, setShownLines] = useState<{ type: string; text: string; partial: string }[]>([])
+  const [lineIdx, setLineIdx] = useState(0)
+  const [charIdx, setCharIdx] = useState(0)
+  const [done, setDone] = useState(false)
+
+  useEffect(() => {
+    if (done) return
+    if (lineIdx >= TERM_LINES.length) { setDone(true); return }
+
+    const line = TERM_LINES[lineIdx]
+    const speed = line.type === 'cmd' ? 45 : 18
+
+    if (charIdx < line.text.length) {
+      const t = setTimeout(() => {
+        const partial = line.text.slice(0, charIdx + 1)
+        setShownLines(prev => {
+          const next = [...prev]
+          next[lineIdx] = { ...line, partial }
+          return next
+        })
+        setCharIdx(c => c + 1)
+      }, speed)
+      return () => clearTimeout(t)
+    } else {
+      const pause = line.type === 'cmd' ? 180 : 80
+      const t = setTimeout(() => {
+        setShownLines(prev => {
+          const next = [...prev]
+          next[lineIdx] = { ...line, partial: line.text }
+          return next
+        })
+        setLineIdx(l => l + 1)
+        setCharIdx(0)
+      }, pause)
+      return () => clearTimeout(t)
+    }
+  }, [lineIdx, charIdx, done])
+
+  return (
+    <div
+      aria-hidden
+      style={{
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        width: '52%',
+        height: '100%',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'flex-end',
+        padding: '24px 32px',
+        maskImage: 'linear-gradient(to left, black 60%, transparent 100%)',
+        WebkitMaskImage: 'linear-gradient(to left, black 60%, transparent 100%)',
+      }}
+    >
+      <div
+        style={{
+          fontFamily: 'var(--mono)',
+          fontSize: 13,
+          lineHeight: 2,
+          color: 'var(--ink)',
+          opacity: 0.75,
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+        }}
+      >
+        {shownLines.map((line, i) => (
+          <div key={i}>
+            {line.type === 'cmd' ? (
+              <span>
+                <span style={{ color: 'var(--accent)', marginRight: 8 }}>$</span>
+                {line.partial}
+                {i === lineIdx - 1 && !done && (
+                  <span style={{ animation: 'blink 1s step-end infinite', marginLeft: 1 }}>█</span>
+                )}
+              </span>
+            ) : (
+              <span style={{ paddingLeft: 16, color: 'var(--ink-faint)' }}>
+                {line.partial}
+              </span>
+            )}
+          </div>
+        ))}
+        {done && (
+          <div>
+            <span style={{ color: 'var(--accent)', marginRight: 8 }}>$</span>
+            <span style={{ animation: 'blink 1s step-end infinite' }}>█</span>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 
 function ParticleField() {
   const ref = useRef<HTMLCanvasElement>(null)
@@ -80,7 +189,7 @@ function ParticleField() {
   )
 }
 
-export default function HeroBg({ variant = 'particles' }: { variant?: 'particles' | 'mesh' | 'gradient' }) {
+export default function HeroBg({ variant = 'terminal' }: { variant?: 'particles' | 'mesh' | 'gradient' | 'terminal' }) {
   if (variant === 'gradient') {
     return (
       <div aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
@@ -92,6 +201,7 @@ export default function HeroBg({ variant = 'particles' }: { variant?: 'particles
       </div>
     )
   }
+  if (variant === 'terminal') return <TerminalBg />
   if (variant === 'particles') {
     return (
       <div aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>

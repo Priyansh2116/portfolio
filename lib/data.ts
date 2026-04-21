@@ -42,6 +42,7 @@ export const DATA = {
       year: '2025',
       status: 'Live',
       link: 'https://www.implantdetect.com',
+      preview: '/aiimaging.mov',
     },
     {
       id: 'pricing',
@@ -62,6 +63,7 @@ export const DATA = {
       year: '2024',
       status: 'Shipped',
       link: 'https://www.srmrudra.com',
+      preview: '/rudrawebsite.mov',
     },
     {
       id: 'starship',
@@ -132,6 +134,6 @@ export const DATA = {
   ],
 }
 
-export type Project = (typeof DATA.projects)[0]
+export type Project = (typeof DATA.projects)[0] & { preview?: string }
 export type ExperienceEntry = (typeof DATA.experience)[0]
 export type Award = (typeof DATA.awards)[0]

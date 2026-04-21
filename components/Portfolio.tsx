@@ -12,9 +12,11 @@ import ContactPanel from './ContactPanel'
 import GridBg from './GridBg'
 import CustomCursor from './CustomCursor'
 import CommandPalette from './CommandPalette'
+import FadeIn from './FadeIn'
+import CmdKHint from './CmdKHint'
 
 type Theme = 'light' | 'dark'
-type HeroVariant = 'particles' | 'mesh' | 'gradient'
+type HeroVariant = 'particles' | 'mesh' | 'gradient' | 'terminal'
 
 const ACCENTS: Record<string, { h: number; c: number }> = {
   slate:      { h: 230, c: 0.045 },
@@ -35,7 +37,7 @@ function applyAccent(key: string) {
 export default function Portfolio() {
   const [theme, setTheme] = useState<Theme>('light')
   const [accent, setAccent] = useState('slate')
-  const [heroBg, setHeroBg] = useState<HeroVariant>('particles')
+  const [heroBg, setHeroBg] = useState<HeroVariant>('terminal')
   const [activeSection, setActiveSection] = useState('overview')
 
   // Hydrate from localStorage / system preference
@@ -81,6 +83,7 @@ export default function Portfolio() {
     <>
       <CustomCursor />
       <CommandPalette theme={theme} onThemeToggle={toggleTheme} />
+      <CmdKHint />
       <div
         style={{
           position: 'relative',
@@ -132,7 +135,7 @@ export default function Portfolio() {
               }}
             />
           ))}
-          {(['particles', 'mesh', 'gradient'] as const).map((v) => (
+          {(['terminal', 'particles', 'mesh', 'gradient'] as const).map((v) => (
             <button
               key={v}
               title={`Hero: ${v}`}
@@ -172,34 +175,30 @@ export default function Portfolio() {
               <HeroPanel heroBg={heroBg} />
 
               {/* Projects + Skills */}
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1.6fr 1fr',
-                  gap: 20,
-                  marginBottom: 28,
-                }}
-                className="two-col-main"
-              >
-                <ProjectsPanel />
-                <SkillsPanel />
-              </div>
+              <FadeIn delay={0}>
+                <div
+                  style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 20, marginBottom: 28 }}
+                  className="two-col-main"
+                >
+                  <ProjectsPanel />
+                  <SkillsPanel />
+                </div>
+              </FadeIn>
 
               {/* Experience + Awards */}
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1.2fr 1fr',
-                  gap: 20,
-                  marginBottom: 28,
-                }}
-                className="two-col-exp"
-              >
-                <ExperiencePanel />
-                <AwardsPanel />
-              </div>
+              <FadeIn delay={60}>
+                <div
+                  style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 20, marginBottom: 28 }}
+                  className="two-col-exp"
+                >
+                  <ExperiencePanel />
+                  <AwardsPanel />
+                </div>
+              </FadeIn>
 
-              <ContactPanel />
+              <FadeIn delay={120}>
+                <ContactPanel />
+              </FadeIn>
             </main>
           </div>
         </div>

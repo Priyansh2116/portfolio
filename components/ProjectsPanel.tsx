@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Tag from './Tag'
 import ArrowIcon from './ArrowIcon'
 import { DATA, type Project } from '@/lib/data'
@@ -38,7 +38,23 @@ function StatusDot({ status }: { status: string }) {
 
 function ProjectRow({ p, last }: { p: Project; last: boolean }) {
   const [hov, setHov] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const isExternal = Boolean(p.link)
+
+  const onEnter = () => {
+    setHov(true)
+    if (p.preview && videoRef.current) {
+      videoRef.current.currentTime = 0
+      videoRef.current.play().catch(() => {})
+    }
+  }
+  const onLeave = () => {
+    setHov(false)
+    if (p.preview && videoRef.current) {
+      videoRef.current.pause()
+      videoRef.current.currentTime = 0
+    }
+  }
 
   const content = (
     <>
@@ -108,7 +124,6 @@ function ProjectRow({ p, last }: { p: Project; last: boolean }) {
     gridTemplateColumns: '60px 1fr auto',
     gap: 18,
     padding: '18px 20px',
-    borderBottom: last ? 'none' : '1px solid var(--line-soft)',
     textDecoration: 'none',
     color: 'inherit',
     background: hov && isExternal ? 'color-mix(in oklch, var(--accent-soft) 40%, transparent)' : 'transparent',
@@ -116,27 +131,42 @@ function ProjectRow({ p, last }: { p: Project; last: boolean }) {
     cursor: isExternal ? 'pointer' : 'default',
   }
 
+  const preview = p.preview && (
+    <div style={{
+      gridColumn: '2 / 3',
+      marginTop: 10,
+      borderRadius: 8,
+      overflow: 'hidden',
+      border: '1px solid var(--line-soft)',
+      maxHeight: hov ? 220 : 0,
+      opacity: hov ? 1 : 0,
+      transition: 'max-height .35s cubic-bezier(.4,0,.2,1), opacity .25s',
+    }}>
+      <video
+        ref={videoRef}
+        src={p.preview}
+        muted
+        loop
+        playsInline
+        style={{ width: '100%', display: 'block', borderRadius: 8 }}
+      />
+    </div>
+  )
+
   if (p.link) {
     return (
-      <a
-        href={p.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        onMouseEnter={() => setHov(true)}
-        onMouseLeave={() => setHov(false)}
-        style={rowStyle}
-      >
-        {content}
-      </a>
+      <div onMouseEnter={onEnter} onMouseLeave={onLeave} style={{ borderBottom: last ? 'none' : '1px solid var(--line-soft)' }}>
+        <a href={p.link} target="_blank" rel="noopener noreferrer" style={{ ...rowStyle, borderBottom: 'none' }}>
+          {content}
+        </a>
+        {preview && <div style={{ padding: '0 20px 14px', display: 'grid', gridTemplateColumns: '60px 1fr auto' }}><div />{preview}</div>}
+      </div>
     )
   }
   return (
-    <div
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={rowStyle}
-    >
-      {content}
+    <div onMouseEnter={onEnter} onMouseLeave={onLeave} style={{ borderBottom: last ? 'none' : '1px solid var(--line-soft)' }}>
+      <div style={{ ...rowStyle, borderBottom: 'none' }}>{content}</div>
+      {preview && <div style={{ padding: '0 20px 14px', display: 'grid', gridTemplateColumns: '60px 1fr auto' }}><div />{preview}</div>}
     </div>
   )
 }
