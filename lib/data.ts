@@ -8,7 +8,7 @@ export const DATA = {
   github: 'github.com/Priyansh2116',
   githubUrl: 'https://github.com/Priyansh2116',
   linkedin: 'linkedin.com/in/priyansh-sonthalia',
-  linkedinUrl: 'https://linkedin.com/in/priyansh-sonthalia',
+  linkedinUrl: 'https://www.linkedin.com/in/priyansh-sonthalia-380817265/',
   resumeUrl: '/resume.pdf',
 
   stats: [
