@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Priyansh Sonthalia — Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      --serif: 'Instrument Serif', Georgia, serif;
+    }
+    html, body { margin: 0; padding: 0; }
+    body { font-family: var(--sans); background: var(--bg, #f5f1ea); color: var(--ink, #2a251f); }
+    a { color: inherit; }
+    .navlink { position: relative; transition: color .2s; }
+    .navlink:hover { color: var(--ink); }
+    .sidelink { text-decoration: none; color: var(--ink-mute); padding: 4px 0; transition: color .15s; }
+    .sidelink:hover { color: var(--ink); }
+    .cc-ring.cc-lg { width: 48px; height: 48px; margin-top:-8px; margin-left:-8px; opacity: 0.9; }
+    input::placeholder, textarea::placeholder { color: var(--ink-faint); }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-33.333%); } }
+    @keyframes pulse { 0% { opacity: .6; transform: scale(1); } 70% { opacity: 0; transform: scale(2.4); } 100% { opacity: 0; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    ::selection { background: var(--accent-soft); color: var(--accent-ink); }
+
+    /* Tweaks panel */
+    .tweaks {
+      position: fixed; right: 20px; bottom: 20px; z-index: 1000;
+      width: 280px; padding: 16px;
+      background: color-mix(in oklch, var(--bg-panel, #fff) 88%, transparent);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--line, rgba(0,0,0,.1)); border-radius: 14px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.1);
+      font-family: var(--sans); font-size: 13px; color: var(--ink);
+      display: none;
+    }
+    .tweaks.open { display: block; animation: fadeUp .25s ease-out; }
+    .tweaks h4 { margin: 0 0 4px; font-size: 13px; font-weight: 600; }
+    .tweaks .sub { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); letter-spacing: .4px; text-transform: uppercase; margin-bottom: 12px; }
+    .tweaks .row { display: grid; gap: 6px; margin-bottom: 14px; }
+    .tweaks .label { font-family: var(--mono); font-size: 10px; letter-spacing: .6px; text-transform: uppercase; color: var(--ink-mute); }
+    .tweaks .pills { display: flex; gap: 4px; flex-wrap: wrap; }
+    .tweaks button.pill {
+      border: 1px solid var(--line); background: transparent;
+      color: var(--ink); padding: 5px 10px; border-radius: 999px;
+      font-family: var(--mono); font-size: 10px; cursor: pointer;
+      transition: all .15s;
+    }
+    .tweaks button.pill.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .tweaks .swatch-row { display: flex; gap: 8px; }
+    .tweaks .swatch {
+      width: 36px; height: 36px; border-radius: 10px;
+      border: 2px solid transparent; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--chip-bg, rgba(0,0,0,.04));
+    }
+    .tweaks .swatch.active { border-color: var(--ink); }
+    .tweaks .swatch i { width: 18px; height: 18px; border-radius: 50%; display: block; }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "dark": false,
+      "accent": "slate",
+      "hero": "particles",
+      "direction": "b"
+    }/*EDITMODE-END*/;
+    window.__TWEAKS = { ...TWEAK_DEFAULTS };
+  </script>
+
+  <script type="text/babel" src="portfolio-data.jsx"></script>
+  <script type="text/babel" src="portfolio-primitives.jsx"></script>
+  <script type="text/babel" src="portfolio-dir-a.jsx"></script>
+  <script type="text/babel" src="portfolio-dir-b.jsx"></script>
+  <script type="text/babel" src="portfolio-dir-c.jsx"></script>
+
+  <script type="text/babel">
+    applyTheme(window.__TWEAKS.dark);
+    applyAccent(window.__TWEAKS.accent);
+
+    function App() {
+      const [direction, setDirection] = React.useState(window.__TWEAKS.direction || 'b');
+      React.useEffect(() => {
+        const h = (e) => { if (e.detail?.direction) setDirection(e.detail.direction); };
+        window.addEventListener('tweaks:change', h);
+        return () => window.removeEventListener('tweaks:change', h);
+      }, []);
+      const C = direction === 'a' ? DirectionA : direction === 'c' ? DirectionC : DirectionB;
+      return (
+        <>
+          <C />
+          <TweaksPanel />
+        </>
+      );
+    }
+
+    function TweaksPanel() {
+      const [open, setOpen] = React.useState(false);
+      const [dark, setDark] = React.useState(window.__TWEAKS.dark);
+      const [accent, setAccent] = React.useState(window.__TWEAKS.accent);
+      const [hero, setHero] = React.useState(window.__TWEAKS.hero);
+      const [direction, setDirection] = React.useState(window.__TWEAKS.direction || 'b');
+
+      React.useEffect(() => {
+        const onMsg = (e) => {
+          if (e.data?.type === '__activate_edit_mode') setOpen(true);
+          if (e.data?.type === '__deactivate_edit_mode') setOpen(false);
+        };
+        window.addEventListener('message', onMsg);
+        window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+        return () => window.removeEventListener('message', onMsg);
+      }, []);
+
+      const push = (key, val) => {
+        window.__TWEAKS[key] = val;
+        window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: val } }, '*');
+      };
+
+      const setDarkV = (v) => { setDark(v); applyTheme(v); push('dark', v); };
+      const setAccentV = (v) => { setAccent(v); applyAccent(v); push('accent', v); };
+      const setHeroV = (v) => { setHero(v); window.dispatchEvent(new CustomEvent('tweaks:change', { detail: { hero: v } })); push('hero', v); };
+      const setDirV = (v) => { setDirection(v); window.dispatchEvent(new CustomEvent('tweaks:change', { detail: { direction: v } })); push('direction', v); };
+
+      const swatchBg = (key) => {
+        const a = ACCENTS[key];
+        return `oklch(0.52 ${a.c} ${a.h})`;
+      };
+
+      return (
+        <div className={'tweaks' + (open ? ' open' : '')}>
+          <h4>Tweaks</h4>
+          <div className="sub">Live · persists to file</div>
+
+          <div className="row">
+            <div className="label">Direction</div>
+            <div className="pills">
+              {[['b', 'Dashboard'], ['a', 'Techy Calm'], ['c', 'Editorial']].map(([k, l]) => (
+                <button key={k} className={'pill' + (direction === k ? ' active' : '')} onClick={() => setDirV(k)}>{l}</button>
+              ))}
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="label">Mode</div>
+            <div className="pills">
+              <button className={'pill' + (!dark ? ' active' : '')} onClick={() => setDarkV(false)}>Light</button>
+              <button className={'pill' + (dark ? ' active' : '')} onClick={() => setDarkV(true)}>Dark</button>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="label">Accent</div>
+            <div className="swatch-row">
+              {Object.keys(ACCENTS).map(k => (
+                <button key={k} className={'swatch' + (accent === k ? ' active' : '')}
+                  onClick={() => setAccentV(k)} title={ACCENTS[k].name}>
+                  <i style={{ background: swatchBg(k) }} />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="label">Hero background</div>
+            <div className="pills">
+              {['mesh', 'gradient', 'particles'].map(h => (
+                <button key={h} className={'pill' + (hero === h ? ' active' : '')} onClick={() => setHeroV(h)}>{h}</button>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
