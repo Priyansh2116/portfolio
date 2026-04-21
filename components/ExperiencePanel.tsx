@@ -18,15 +18,14 @@ export default function ExperiencePanel() {
         {DATA.experience.map((e, i) => (
           <div
             key={i}
+            className="exp-row"
             style={{
-              display: 'grid',
-              gridTemplateColumns: '110px 1fr',
-              gap: 16,
-              padding: '14px 0',
+              display: 'grid', gridTemplateColumns: '110px 1fr',
+              gap: 16, padding: '14px 0',
               borderTop: i > 0 ? '1px solid var(--line-soft)' : 'none',
             }}
           >
-            <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--ink-faint)', lineHeight: 1.6 }}>
+            <div className="exp-date" style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--ink-faint)', lineHeight: 1.6 }}>
               {e.when}
             </div>
             <div>

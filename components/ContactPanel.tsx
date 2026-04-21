@@ -40,6 +40,7 @@ export default function ContactPanel() {
   return (
     <section id="contact" style={panelBox}>
       <div
+        className="contact-grid"
         style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',

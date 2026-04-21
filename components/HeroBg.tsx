@@ -57,6 +57,7 @@ function TerminalBg() {
   return (
     <div
       aria-hidden
+      className="terminal-bg"
       style={{
         position: 'absolute',
         bottom: 0,
@@ -134,13 +135,13 @@ function ParticleField() {
     resize()
     window.addEventListener('resize', resize)
 
-    for (let i = 0; i < 42; i++) {
+    for (let i = 0; i < 35; i++) {
       particles.push({
         x: Math.random() * w,
         y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.25,
-        r: Math.random() * 1.2 + 0.4,
+        vx: (Math.random() - 0.5) * 0.22,
+        vy: (Math.random() - 0.5) * 0.22,
+        r: Math.random() * 1.0 + 0.4,
       })
     }
 
@@ -159,14 +160,14 @@ function ParticleField() {
         for (let j = i + 1; j < particles.length; j++) {
           const a = particles[i], b = particles[j]
           const d = Math.hypot(a.x - b.x, a.y - b.y)
-          if (d < 140) {
-            ctx.globalAlpha = (1 - d / 140) * 0.25
+          if (d < 130) {
+            ctx.globalAlpha = (1 - d / 130) * 0.22
             ctx.beginPath()
             ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke()
           }
         }
       }
-      ctx.globalAlpha = 0.7
+      ctx.globalAlpha = 0.6
       ctx.fillStyle = accent
       for (const p of particles) {
         ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill()
@@ -184,7 +185,7 @@ function ParticleField() {
   return (
     <canvas
       ref={ref}
-      style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.9 }}
+      style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 1 }}
     />
   )
 }

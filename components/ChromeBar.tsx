@@ -6,9 +6,11 @@ import Dot from './Dot'
 interface Props {
   theme: 'light' | 'dark'
   onThemeToggle: () => void
+  onHamburger: () => void
+  mobileNavOpen: boolean
 }
 
-export default function ChromeBar({ theme, onThemeToggle }: Props) {
+export default function ChromeBar({ theme, onThemeToggle, onHamburger, mobileNavOpen }: Props) {
   const [date, setDate] = useState('')
 
   useEffect(() => {
@@ -37,7 +39,30 @@ export default function ChromeBar({ theme, onThemeToggle }: Props) {
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-        <div style={{ display: 'flex', gap: 6 }}>
+        {/* Hamburger — mobile only */}
+        <button
+          className="hamburger"
+          onClick={onHamburger}
+          aria-label="Toggle navigation"
+          style={{
+            display: 'none', alignItems: 'center', justifyContent: 'center',
+            width: 28, height: 28, background: 'none', border: 'none',
+            cursor: 'pointer', padding: 4, borderRadius: 6, color: 'var(--ink-mute)',
+            flexShrink: 0,
+          }}
+        >
+          {mobileNavOpen ? (
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+              <path d="M3 3l10 10M13 3L3 13" />
+            </svg>
+          ) : (
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+              <path d="M2 4h12M2 8h12M2 12h12" />
+            </svg>
+          )}
+        </button>
+
+        <div className="chrome-traffic" style={{ display: 'flex', gap: 6 }}>
           {(['#f87171', '#fbbf24', '#4ade80'] as const).map((c) => (
             <i key={c} style={{ width: 11, height: 11, borderRadius: '50%', background: c, display: 'block', flexShrink: 0 }} />
           ))}

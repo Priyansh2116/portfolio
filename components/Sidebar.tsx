@@ -13,6 +13,7 @@ interface NavItem {
 
 interface Props {
   activeSection: string
+  onNavClick?: () => void
 }
 
 const navItems: NavItem[] = [
@@ -23,7 +24,7 @@ const navItems: NavItem[] = [
   { n: '05', l: 'Contact', href: '#contact' },
 ]
 
-export default function Sidebar({ activeSection }: Props) {
+export default function Sidebar({ activeSection, onNavClick }: Props) {
   const [lightbox, setLightbox] = useState(false)
   const [mounted, setMounted] = useState(false)
 
@@ -125,6 +126,7 @@ export default function Sidebar({ activeSection }: Props) {
               <a
                 key={it.l}
                 href={it.href}
+                onClick={onNavClick}
                 style={{
                   display: 'flex',
                   gap: 12,

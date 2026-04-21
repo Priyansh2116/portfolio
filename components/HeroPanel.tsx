@@ -34,7 +34,7 @@ function TypedH1() {
   const showCursor = chars < FULL_LEN || cursorVisible
 
   return (
-    <h1 style={{ fontSize: 'clamp(36px, 5vw, 60px)', fontWeight: 500, lineHeight: 1.02, letterSpacing: -1.8, margin: 0, maxWidth: 820 }}>
+    <h1 style={{ fontSize: 'clamp(28px, 5vw, 60px)', fontWeight: 500, lineHeight: 1.08, letterSpacing: -1.2, margin: 0, maxWidth: 820 }}>
       {p1}
       {p2 && <span style={{ color: 'var(--accent-ink)' }}>{p2}</span>}
       {p3}
@@ -49,16 +49,12 @@ export default function HeroPanel({ heroBg }: { heroBg: 'particles' | 'mesh' | '
   return (
     <section
       id="overview"
+      className="hero-section"
       style={{
-        position: 'relative',
-        borderRadius: 16,
-        overflow: 'hidden',
-        border: '1px solid var(--line)',
-        background: 'var(--bg-panel)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        padding: '48px 48px 36px',
-        marginBottom: 28,
+        position: 'relative', borderRadius: 16, overflow: 'hidden',
+        border: '1px solid var(--line)', background: 'var(--bg-panel)',
+        backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+        padding: '48px 48px 36px', marginBottom: 28,
       }}
     >
       <HeroBg variant={heroBg} />
@@ -70,7 +66,7 @@ export default function HeroPanel({ heroBg }: { heroBg: 'particles' | 'mesh' | '
 
         <TypedH1 />
 
-        <p style={{ marginTop: 20, fontSize: 16, lineHeight: 1.55, color: 'var(--ink-mute)', maxWidth: 620 }}>
+        <p style={{ marginTop: 16, fontSize: 15, lineHeight: 1.55, color: 'var(--ink-mute)', maxWidth: 620 }}>
           Priyansh Sonthalia — CS undergrad at SRM. Interning at Smoad Networks on real-time network
           monitoring; previously Samsung R&D on LLM-powered pricing systems.
         </p>
@@ -80,7 +76,7 @@ export default function HeroPanel({ heroBg }: { heroBg: 'particles' | 'mesh' | '
           <MagButton variant="ghost" href={DATA.resumeUrl}>Resume ↗</MagButton>
         </div>
 
-        <div style={{ marginTop: 44, display: 'grid', gridTemplateColumns: `repeat(${DATA.stats.length}, 1fr)`, borderTop: '1px solid var(--line-soft)' }}>
+        <div className="stats-strip" style={{ marginTop: 44, display: 'grid', gridTemplateColumns: `repeat(${DATA.stats.length}, 1fr)`, borderTop: '1px solid var(--line-soft)' }}>
           {DATA.stats.map((s, i) => (
             <div key={s.label} style={{ padding: '16px 18px', borderRight: i < DATA.stats.length - 1 ? '1px solid var(--line-soft)' : 'none' }}>
               <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--ink-faint)', textTransform: 'uppercase', letterSpacing: 0.6 }}>{s.label}</div>
