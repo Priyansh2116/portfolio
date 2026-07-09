@@ -12,9 +12,9 @@ export const DATA = {
   resumeUrl: '/resume.pdf',
 
   stats: [
-    { label: 'CGPA', value: '9.42' },
+    { label: 'CGPA', value: '9.44' },
     { label: 'Projects shipped', value: '12+' },
-    { label: 'Years building', value: '3' },
+    { label: 'Years building', value: '4' },
   ],
 
   about: [
@@ -81,7 +81,7 @@ export const DATA = {
       kicker: 'Real-time network monitor',
       desc: 'Full-stack monitoring dashboard: Node.js/FastAPI backend aggregates latency, jitter, and packet loss from RIPE Atlas hosts — visualized live on a React frontend.',
       tech: ['FastAPI', 'React', 'RIPE Atlas', 'Node.js'],
-      year: '2025',
+      year: '2026',
       status: 'In progress',
       link: null,
     },
@@ -91,7 +91,7 @@ export const DATA = {
       kicker: 'Medical 3D segmentation',
       desc: 'Trained a 3D nnU-Net on 52 CT scans to measure glenoid bone loss. Full pipeline: curation, annotation, training, eval.',
       tech: ['nnU-Net', 'PyTorch', 'Python'],
-      year: '2024',
+      year: '2025',
       status: 'Research',
       link: null,
     },
@@ -122,7 +122,7 @@ export const DATA = {
       role: 'B.Tech, Computer Science',
       company: 'SRM Institute of Science and Technology',
       when: 'Jun 2023 — May 2027',
-      bullets: ['CGPA 9.42 / 10.00.', 'Focus: AI, network security, full-stack systems.'],
+      bullets: ['CGPA 9.44 / 10.00.', 'Focus: AI, network security, full-stack systems.'],
     },
   ],
 
